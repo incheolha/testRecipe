@@ -11,31 +11,38 @@ export class RecipeService {
 
   recipeChanged = new Subject<Recipe[]>()   //새로 바뀐 recipes(add, edit) 를 subscribe()사용해 알려줄때사용
 
-  recipes: Recipe[] = [
-    new Recipe('A test recipe',
-              'this is a sample recipe image',
-              'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg',
-              [
-                new Ingredient('Meat', 5),
-                new Ingredient('French Fries', 10)
-              ]),
-    new Recipe('A test recipe',
-              'this is a sample recipe image',
-              'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg',
-              [
-                new Ingredient('bread', 10),
-                new Ingredient('ham', 5)
-              ]),
-    new Recipe('A test recipe',
-              'this is a sample recipe image',
-              'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg',
-              [
-                new Ingredient('Cheese', 4),
-                new Ingredient('Sosuage', 8)
-              ])
-  ]
+  // recipes: Recipe[] = [
+  //   new Recipe('A test recipe',
+  //             'this is a sample recipe image',
+  //             'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg',
+  //             [
+  //               new Ingredient('Meat', 5),
+  //               new Ingredient('French Fries', 10)
+  //             ]),
+  //   new Recipe('A test recipe',
+  //             'this is a sample recipe image',
+  //             'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg',
+  //             [
+  //               new Ingredient('bread', 10),
+  //               new Ingredient('ham', 5)
+  //             ]),
+  //   new Recipe('A test recipe',
+  //             'this is a sample recipe image',
+  //             'https://upload.wikimedia.org/wikipedia/commons/3/39/Recipe.jpg',
+  //             [
+  //               new Ingredient('Cheese', 4),
+  //               new Ingredient('Sosuage', 8)
+  //             ])
+  // ]
 
+  recipes: Recipe[] = [];
+  
   constructor(private shoppingListService: ShoppingListService){}
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipeChanged.next(this.recipes.slice())
+  }
 
   getRecipes() {
     return this.recipes.slice();
