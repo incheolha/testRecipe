@@ -26,6 +26,7 @@ export class RecipeDetailComponent implements OnInit {
 
 
   onAddShoppingList() {
+    console.log( 'drop down menu click');
     this.recipeService.addIngredientToShoppingList(this.recipe.ingredients);
   }
 

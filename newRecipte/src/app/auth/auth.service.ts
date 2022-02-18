@@ -6,6 +6,8 @@ import { throwError, tap, BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
 import { Router } from '@angular/router';
 
+import { environment } from 'src/environments/environment.prod';
+
 // firebase에서 return한 response값을 class로 재설정함
 
 export interface AuthResponseData {
@@ -33,7 +35,7 @@ export class AuthService {
 
   signup(email: string, password: string) {
   return this.http.post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAxAUy-pnfT2IaWaLXCJvRcM8TZDcQhs1k',
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firebbaseAPIkey,
         {
           email: email,
           password: password,
@@ -98,7 +100,7 @@ export class AuthService {
 
   login(email:string, password: string) {
     return this.http.post<AuthResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAxAUy-pnfT2IaWaLXCJvRcM8TZDcQhs1k',
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+ environment.firebbaseAPIkey,
       {
         email: email,
         password: password,
@@ -139,7 +141,7 @@ export class AuthService {
         errorMessage = "This email does no exsit";
         break;
       case 'INVALID_PASSWORD':
-        errorMessage = "This email does no exsit";
+        errorMessage = "This Password does no exsit";
         break;
 
     }

@@ -1,33 +1,28 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { RecipesComponent } from './recipes/recipes.component';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
-import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
-import { RecipesResolverService } from './recipes/recipes-resolver.service';
-import { AuthComponent } from './auth/auth.component';
-import { AuthGuard } from './auth/auth.guard';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full'},
-  { path: 'recipes', component: RecipesComponent,
-                     canActivate: [AuthGuard],               //url 주소를 직접입력하는것을 막게하는 것
-        children: [
-          { path: '', component: RecipeStartComponent},
-          // 라우팅 설정은 순서가 굉장히 중요하다.
-          // { path: ':id', component: RecipeDetailComponent},
-          { path: 'new', component: RecipeEditComponent},
-          { path: ':id', component: RecipeDetailComponent, resolve: [RecipesResolverService]},
-          { path: ':id/edit', component: RecipeEditComponent, resolve: [RecipesResolverService]}
-        ]
-},
-  { path: 'shopping-list', component: ShoppingListComponent},
-  { path: 'auth', component: AuthComponent}
+
+  //angular 9+부터는 loadChildren에 string값을 더하면 error가 발생함 그러므로 반드시 callback함수사용하여
+  // 적용해야함
+  // { path: 'recipes', loadChildren: './recipes/recipes-routing.module#RecipesRoutingModule'}
+
+  { path: 'recipes',
+  loadChildren: () => import('./recipes/recipes-routing.module').then ( m => m.RecipesRoutingModule)
+  },
+  { path: 'shopping-list',
+  loadChildren: () => import('./shopping-list/shopping-list.module').then( m => m.ShoppingListModule)
+  },
+  { path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+
+  }
 ];
 
 @NgModule( {
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

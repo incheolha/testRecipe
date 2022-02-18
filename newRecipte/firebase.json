@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "public": "dist/new-recipte",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+    }
+
+}
