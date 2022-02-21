@@ -3,16 +3,23 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpParams, HttpRequest } from
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AuthService } from "./auth.service";
-import { exhaustMap, take } from 'rxjs/operators';
+import { exhaustMap, take, map } from 'rxjs/operators';
+import { User } from './user.model';
+
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private store: Store<fromApp.AppState>) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      return this.authService.user.pipe(
+      return this.store.select('auth').pipe(
         take(1),
+        map( authState => {
+          return authState.user;
+        }),
         exhaustMap( user => {
 
           if (!user) {                   //user return값이 null이면 기존이 req를 사용하고

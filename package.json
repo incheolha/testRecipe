@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "@ngrx/effects": "^13.0.2",
     "bootstrap": "^3.4.1"
+  },
+  "devDependencies": {
+    "@ngrx/store-devtools": "^13.0.2"
   }
 }
