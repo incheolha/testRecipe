@@ -31,7 +31,8 @@ export class RecipesEffects {
                       return new RecipesActions.SetRecipes(recipes);
                     })
 
-                )
+                ),
+                {dispatch: false}
   )
 
   storeRecipes = createEffect( () =>
