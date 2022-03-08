@@ -42,6 +42,7 @@ export function recipeReducer (state = initialState,
           ...state,
           recipes: state.recipes.filter((recipes, index) => {
             return index != action.payload;
+            console.log('this is a sample');
           })
         }
     default:
